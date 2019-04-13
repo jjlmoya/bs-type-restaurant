@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Accomodation Model [Post Type]
+ * Plugin Name: Restaurant Model [Post Type]
  * Plugin URI: https://www.bonseo.es/
- * Description: Modelo de Alojamientos
+ * Description: Modelo de Restaurante
  * Author: jjlmoya
  * Author URI: https://www.bonseo.es/
  * Version: 1.0.0
@@ -32,7 +32,7 @@ if (!in_array('bs-core/plugin.php', apply_filters('active_plugins', get_option('
 
 /** MODEL CONFIGURATION **/
 require_once plugin_dir_path(__FILE__) . '/Restaurant.php';
-function bs_accommodation_get_post_type()
+function bs_restaurant_get_post_type()
 {
 	return Restaurant::getInstance('Restaurante', 'Restaurantes', "restaurante",
 		array(
@@ -68,9 +68,9 @@ function bs_accommodation_get_post_type()
 /** END MODEL CONFIGURATION */
 
 /** REGISTER CORE FUNCTIONS **/
-function bs_accommodation_register_post_type()
+function bs_restaurant_register_post_type()
 {
-	$model = bs_accommodation_get_post_type();
+	$model = bs_restaurant_get_post_type();
 	$labels = array(
 		"name" => __($model->plural, "custom-post-type-ui"),
 		"singular_name" => __($model->singular, "custom-post-type-ui"),
@@ -108,17 +108,17 @@ function bs_accommodation_register_post_type()
 	register_post_type($model->db, $args);
 }
 
-function bs_accommodation_create_custom_params()
+function bs_restaurant_create_custom_params()
 {
-	$model = bs_accommodation_get_post_type();
+	$model = bs_restaurant_get_post_type();
 	foreach ($model->customFields as $customField) {
 		add_action('add_meta_boxes', $model->nameSpace . '_' . $customField["value"] . '_register');
 	}
 }
 
-function bs_accommodation_register($customType)
+function bs_restaurant_register($customType)
 {
-	$model = bs_accommodation_get_post_type();
+	$model = bs_restaurant_get_post_type();
 	$customField = $model->customFields;
 	$customField = $customField[$customType];
 	add_meta_box(
@@ -132,9 +132,9 @@ function bs_accommodation_register($customType)
 
 }
 
-function bs_accommodation_callback($fieldType)
+function bs_restaurant_callback($fieldType)
 {
-	$model = bs_accommodation_get_post_type();
+	$model = bs_restaurant_get_post_type();
 	$customField = $model->customFields;
 	$customField = $customField[$fieldType];
 	$dbEntry = $model->db . '_' . $customField['value'];
@@ -144,10 +144,10 @@ function bs_accommodation_callback($fieldType)
 	echo '<input type="' . $customField['input'] . '" name="' . $dbEntry . '" value="' . esc_textarea($value) . '" class="widefat">';
 }
 
-function bs_accommodation_on_save($post_id)
+function bs_restaurant_on_save($post_id)
 {
 
-	$model = bs_accommodation_get_post_type();
+	$model = bs_restaurant_get_post_type();
 
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 		return;
@@ -171,59 +171,59 @@ function bs_accommodation_on_save($post_id)
 	}
 }
 
-add_action('init', 'bs_accommodation_register_post_type');
-add_action('save_post', 'bs_accommodation_on_save');
-bs_accommodation_create_custom_params();
+add_action('init', 'bs_restaurant_register_post_type');
+add_action('save_post', 'bs_restaurant_on_save');
+bs_restaurant_create_custom_params();
 
 
-function bs_accommodation_cordX_register()
+function bs_restaurant_cordX_register()
 {
-	bs_accommodation_register('cordX');
+	bs_restaurant_register('cordX');
 }
 
-function bs_accommodation_cordX_callback()
+function bs_restaurant_cordX_callback()
 {
-	bs_accommodation_callback('cordX');
+	bs_restaurant_callback('cordX');
 }
 
-function bs_accommodation_cordY_register()
+function bs_restaurant_cordY_register()
 {
-	bs_accommodation_register('cordY');
+	bs_restaurant_register('cordY');
 }
 
-function bs_accommodation_cordY_callback()
+function bs_restaurant_cordY_callback()
 {
-	bs_accommodation_callback('cordY');
+	bs_restaurant_callback('cordY');
 }
 
-function bs_accommodation_affiliateLink_register()
+function bs_restaurant_affiliateLink_register()
 {
-	bs_accommodation_register('affiliateLink');
+	bs_restaurant_register('affiliateLink');
 }
 
-function bs_accommodation_affiliateLink_callback()
+function bs_restaurant_affiliateLink_callback()
 {
-	bs_accommodation_callback('affiliateLink');
+	bs_restaurant_callback('affiliateLink');
 }
 
-function bs_accommodation_affiliateCTA_register()
+function bs_restaurant_affiliateCTA_register()
 {
-	bs_accommodation_register('affiliateCTA');
+	bs_restaurant_register('affiliateCTA');
 }
 
-function bs_accommodation_affiliateCTA_callback()
+function bs_restaurant_affiliateCTA_callback()
 {
-	bs_accommodation_callback('affiliateCTA');
+	bs_restaurant_callback('affiliateCTA');
 }
 
-function bs_accommodation_price_register()
+function bs_restaurant_price_register()
 {
-	bs_accommodation_register('price');
+	bs_restaurant_register('price');
 }
 
-function bs_accommodation_price_callback()
+function bs_restaurant_price_callback()
 {
-	bs_accommodation_callback('price');
+	bs_restaurant_callback('price');
 }
 
 
